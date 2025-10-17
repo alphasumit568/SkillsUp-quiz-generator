@@ -1,0 +1,509 @@
+/* Base Styles */
+.quiz-selection-page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Decorative Circles */
+.decoration-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+ 
+  z-index: 0;
+}
+
+.circle-1 {
+  width: 300px;
+  height: 300px;
+  top: -100px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(107, 115, 255, 0.1) 0%, rgba(107, 115, 255, 0) 70%);
+}
+
+.circle-2 {
+  width: 200px;
+  height: 200px;
+  bottom: -50px;
+  right: -50px;
+  background: radial-gradient(circle, rgba(255, 107, 107, 0.1) 0%, rgba(255, 107, 107, 0) 70%);
+}
+
+.circle-3 {
+  width: 150px;
+  height: 150px;
+  top: 50%;
+  right: 10%;
+  background: radial-gradient(circle, rgba(107, 255, 178, 0.1) 0%, rgba(107, 255, 178, 0) 70%);
+}
+
+/* Header Styles */
+.selection-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.selection-header h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(90deg, #6b73ff, #000dff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.selection-header p {
+  font-size: 1.1rem;
+  color: #4a5568;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Form Styles */
+.quiz-form {
+  background-color: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px;
+  position: relative;
+  z-index: 1;
+  overflow: hidden; /* Keep this, but the popup's higher z-index should override for external stacking */
+}
+
+.quiz-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #6b73ff, #000dff);
+}
+
+.form-section {
+  margin-bottom: 2rem;
+  animation: floatIn 0.5s ease-out forwards;
+  opacity: 0;
+  /* Crucial: Position relative to establish a stacking context for z-index */
+  position: relative;
+  /* Default z-index for all form sections */
+  z-index: 1;
+}
+
+/* New Rule: Increase z-index for the form-section when language popup is active */
+.form-section.z-index-raised {
+  z-index: 1000; /* This lifts the entire section above others */
+}
+
+
+@keyframes floatIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #005eff;
+  margin-bottom: 1rem;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #6b73ff, #000dff);
+  border-radius: 3px;
+}
+
+/* Input Group Styles */
+.input-group {
+  margin-bottom: 1.5rem;
+  position: relative; /* Essential for absolute positioning of children like the popup */
+  z-index: 2; /* Give general input groups a slightly higher z-index if they contain popups */
+}
+
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+  color: #6b73ff;
+}
+
+/* Search/Language Input Styles */
+.search-container {
+  position: relative;
+  /* This is the direct parent of the input and the popup */
+  z-index: 3; /* Ensures input is above other elements within its input-group */
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #f8fafc;
+}
+
+.search-input.empty {
+  border-color: #e2e8f0;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #6b73ff;
+  box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.2);
+  background-color: white;
+}
+
+.selected-language-tag {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  background-color: #6b73ff;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.clear-language {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clear-language:hover {
+  opacity: 0.8;
+}
+
+/* Language Popup Styles */
+.language-popup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  /* THIS IS THE KEY FIX: Significantly increased z-index */
+  z-index: 1000; /* Extremely high to guarantee it's on top of everything else */
+  margin-top: 0.5rem;
+  border: 1px solid #e2e8f0;
+}
+
+.language-option {
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #4a5568;
+}
+
+.language-option:hover {
+  background-color: #f8fafc;
+  color: #6b73ff;
+}
+
+.no-results {
+  padding: 1rem;
+  text-align: center;
+  color: #718096;
+  font-style: italic;
+}
+
+/* Select Input Styles */
+select {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  appearance: none;
+  background-color: #f8fafc;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+select.empty {
+  color: #a0aec0;
+}
+
+select:focus {
+  outline: none;
+  border-color: #6b73ff;
+  box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.2);
+  background-color: white;
+}
+
+/* Toggle Group Styles */
+.toggle-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.toggle-group input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.toggle-option {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #f8fafc;
+  position: relative; /* Ensure these also establish stacking context if needed */
+  z-index: 1;
+}
+
+.toggle-group input[type="radio"]:checked + .toggle-option {
+  border-color: #6b73ff;
+  background-color: rgba(107, 115, 255, 0.05);
+  box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.1);
+}
+
+.toggle-option:hover {
+  border-color: #c3d0e9;
+}
+
+.toggle-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.toggle-option span:not(.toggle-icon) {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.toggle-description {
+  font-size: 0.9rem;
+  color: #718096;
+  margin-top: 0.3rem;
+  font-weight: normal;
+}
+
+/* Textarea Styles */
+textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  resize: vertical;
+  background-color: #f8fafc;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+textarea.empty {
+  border-color: #e2e8f0;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #6b73ff;
+  box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.2);
+  background-color: white;
+}
+
+/* Prompt Examples Styles */
+.prompt-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #718096;
+}
+
+.prompt-examples button {
+  background: none;
+  border: none;
+  color: #6b73ff;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.prompt-examples button:hover {
+  background-color: rgba(107, 115, 255, 0.1);
+}
+
+/* Submit Button Styles */
+.submit-button {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #6b73ff, #000dff);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  position: relative;
+  overflow: hidden;
+  z-index: 1; /* Ensure submit button is not under form background */
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(107, 115, 255, 0.4);
+}
+
+.submit-button:active {
+  transform: translateY(0);
+}
+
+.submit-button.loading {
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+.button-arrow {
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover .button-arrow {
+  transform: translateX(3px);
+}
+
+/* Spinner Animation */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Shake Animation for Validation */
+.shake-animation {
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .quiz-selection-page {
+    padding: 1.5rem;
+  }
+
+  .selection-header h1 {
+    font-size: 2rem;
+  }
+
+  .selection-header p {
+    font-size: 1rem;
+  }
+
+  .quiz-form {
+    padding: 1.5rem;
+  }
+
+  .toggle-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .quiz-selection-page {
+    padding: 1rem;
+  }
+
+  .selection-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .quiz-form {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+
+  .submit-button {
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+}
